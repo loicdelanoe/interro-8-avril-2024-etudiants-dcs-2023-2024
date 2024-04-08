@@ -2,6 +2,9 @@
 /** @var array $upcoming_jiris */
 
 /** @var array $passed_jiris */
+
+/* session_unset(); */
+
 ?>
 <!doctype html>
 <html lang="fr">

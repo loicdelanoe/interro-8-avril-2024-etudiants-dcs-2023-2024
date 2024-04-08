@@ -119,7 +119,7 @@ class Database extends PDO
         }, array_keys($data)));
 
         $sql = <<<SQL
-            INSERT INTO jiris ($columns)
+            INSERT INTO $this->table ($columns)
             VALUES ($placeholders)
         SQL;
 
@@ -130,5 +130,22 @@ class Database extends PDO
         }
 
         return $statement->execute();
+    }
+
+    public function findUserOrFail(string $email)
+    {
+        $sql = <<<SQL
+                SELECT * FROM $this->table 
+                         WHERE email = :email  
+        SQL;
+        $statement = $this->prepare($sql);
+        $statement->execute(['email' => $email]);
+        $user = $statement->fetch();
+
+        if (!$user) {
+            Response::redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        return $user;
     }
 }

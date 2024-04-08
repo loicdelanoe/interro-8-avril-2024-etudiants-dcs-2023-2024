@@ -89,4 +89,23 @@ class Validator
         }
         return true;
     }
+
+    private static function email(string $key): bool
+    {
+        if (!filter_var($_POST[$key], FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['errors'][$key] = "L'{$key} n'est pas valide";
+            return false;
+        }
+        return true;
+    }
+
+    private static function credientials(string $key)
+    {
+        if (!password_verify($_POST[$key], password_hash($_POST[$key], PASSWORD_DEFAULT))) {
+            $_SESSION['login'] = "Votre email ou / et mot de passe n\'est pas valide";
+            return false;
+        }
+
+        return true;
+    }
 }
